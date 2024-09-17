@@ -1,0 +1,5 @@
+webhook:
+  listen_address: localhost
+  listen_port: 8001
+  base_url: https://domain.com
+  bot_path: /template-bot-v2

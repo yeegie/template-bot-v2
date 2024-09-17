@@ -1,0 +1,32 @@
+version: '3.7'
+
+services:
+  bot:
+    container_name: bot
+    restart: always
+    build:
+      context: .
+      dockerfile: ../src/app/docker/DockerFile
+    networks:
+      - traefik_network
+    ports:
+      - "8000:8000"
+    labels:
+      - "traefik.enable=true"
+      # Network
+      - "traefik.docker.network=traefik_network"
+
+      # Service
+      - "traefik.http.services.bot-service.loadbalancer.server.port=${listen_port}"
+
+      # Router
+      - "traefik.http.routers.${project}-router.rule=Host(`${base_url}`) && PathPrefix(`${bot_path}`)"
+      - "traefik.http.routers.${project}-router.service=${project}-service"
+
+      # Entry point
+      - "traefik.http.routers.${project}-router.entrypoints=web"
+
+networks:
+  traefik_network:
+    driver: overlay
+    external: true

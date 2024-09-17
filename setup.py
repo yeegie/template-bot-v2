@@ -18,6 +18,7 @@ setup(
 	entry_points={
         'console_scripts': [
             'start_bot = bin.bot.main:main',
+            'cli_bot = bin.cli.main:main',
         ],
     },
 )
